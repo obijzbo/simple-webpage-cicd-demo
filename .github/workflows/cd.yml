@@ -37,18 +37,24 @@ jobs:
           #!/bin/bash
           set -e
           exec > /var/log/user-data.log 2>&1
-          echo "Deployment started $(date)"
+          echo "=== Deployment started: $(date) ==="
 
           docker pull ${{ steps.tag.outputs.full_tag }}
 
           docker stop my-app || true
           docker rm my-app || true
 
-          docker run -d --name my-app -p 80:80 --restart unless-stopped ${{ steps.tag.outputs.full_tag }}
+          docker run -d \
+            --name my-app \
+            -p 80:80 \
+            --restart unless-stopped \
+            ${{ steps.tag.outputs.full_tag }}
 
-          echo "Deployment complete $(date)"
+          echo "=== Deployment complete: $(date) ==="
           EOF
           )
+          # Force Unix line endings (removes any \r)
+          SCRIPT=$(echo "$SCRIPT" | tr -d '\r')
           ENCODED=$(echo "$SCRIPT" | base64 -w 0)
           echo "encoded=$ENCODED" >> $GITHUB_OUTPUT
 
