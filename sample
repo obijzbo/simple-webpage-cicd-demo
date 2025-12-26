@@ -1,0 +1,29 @@
+reverse proxy
+192.168.1.20 -> nginx/apache
+192.168.1.23 (abc.example.com)
+192.168.1.24 (def.example.com)
+
+
+user -> webserver -> (reverse-proxy)  
+    (abc.example.com) -> 192.168.1.23
+    (def.example.com) -> 192.168.1.24
+
+
+
+load balancer (A/B) A=v1.0.0 B=v1.0.1
+192.168.1.20 -> nginx/apache (example.com)
+192.168.1.23 (A) 
+192.168.1.24 (A) abc.example.com/v1 stage -> prod
+192.168.1.35 (B)
+192.168.1.36 (B) abc.example.com/v2 prod -> stage 
+
+every new request -> webserver -> next server ip
+
+
+
+load balancer (canary) A=v1.0.0, B=v1.0.1, C=v1.0.2
+192.168.1.20 -> nginx/apache (example.com)
+192.168.1.23 (B) +add name                   |   
+192.168.1.24 (B) +add name                   |   db server A (RDS) -> -drop X name
+192.168.1.35 (B) +add name                   |   
+192.168.1.36 (B) -drop name                  |
