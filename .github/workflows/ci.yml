@@ -37,5 +37,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/my-static-app:${{ steps.tag.outputs.tag }}
-            ${{ secrets.DOCKER_HUB_USERNAME }}/my-static-app:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/simple-webpage-cicd-demo:${{ steps.tag.outputs.tag }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/simple-webpage-cicd-demo:latest
